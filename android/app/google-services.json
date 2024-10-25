@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "315747135771",
+    "project_id": "exam-655bd",
+    "storage_bucket": "exam-655bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315747135771:android:0c70da9b3f37561d0363be",
+        "android_client_info": {
+          "package_name": "com.example.adv_final_exam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUF-lMsSD9xaPhmsZaodf1ShF9oqF8mDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
