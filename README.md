@@ -1,16 +1,5 @@
 # adv_final_exam
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/user-attachments/assets/e6a59588-1b27-4c32-ba5e-4cd176c545d5" height=65% width=22%>
+<img src="https://github.com/user-attachments/assets/e606a481-b8a6-4a59-9712-fe8b7be89b0c" height=65% width=22%>
+<img src="https://github.com/user-attachments/assets/97768c7e-de58-4b9e-80c6-d1c53e4acc59" height=65% width=22%>
