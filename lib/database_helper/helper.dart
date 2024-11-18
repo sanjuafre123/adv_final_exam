@@ -22,10 +22,10 @@ class DatabaseHelper {
       onCreate: (db, version) {
         String sql = '''
         CREATE TABLE $tableName(
-        id INTEGER PRIMARY KEY,
+        id INTEGER NOT NULL,
         name TEXT NOT NULL,
-        date TEXT NOT null,
-        present TEXT NOT null,
+        date TEXT NOT NULL,
+        present TEXT NOT NULL,
         )
         ''';
         db.execute(sql);
@@ -49,31 +49,32 @@ class DatabaseHelper {
     name,data,present
     ) VALUES (? , ? , ?)
     ''';
-    List args = [name, context, date, present];
+    List args = [name, date, present];
     return await db.rawInsert(sql, args);
   }
 
   Future<List<Map<String, Object?>>> readData() async {
     final db = await database;
     String sql = '''
-    SELECT*FROM $tableName
+    SELECT * FROM $tableName
     ''';
     return await db.rawQuery(sql);
   }
 
-  Future<int> updateAttendence(int id ,String name, String date, String present) async {
+  Future<int> updateAttendence(
+      int id, String name, String date, String present) async {
     final db = await database;
     String sql = '''
     UPDATE $tableName SET name = ?, date = ?, present = ? WHERE id = ?
     ''';
-    List args = [name, context, date, present,id];
+    List args = [name, date, present, id];
     return await db.rawUpdate(sql, args);
   }
 
-  Future<int> deleteAttendence(int id ) async {
+  Future<int> deleteAttendence(int id) async {
     final db = await database;
     String sql = '''
-    DELETE FROm $tableName WHERE id = ?
+    DELETE FROM $tableName WHERE id = ?
     ''';
     List args = [id];
     return await db.rawDelete(sql, args);
