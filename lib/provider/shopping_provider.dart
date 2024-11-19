@@ -48,7 +48,7 @@ class ShoppingProvider extends ChangeNotifier {
           name: shopping.name,
           cate: shopping.cate,
           qut: shopping.qut.toString(),
-          done: shopping.
+          done:
         );
       } else {
         await insertDatabase(

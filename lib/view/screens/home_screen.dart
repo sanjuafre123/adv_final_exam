@@ -1,3 +1,4 @@
+import 'package:adv_final_exam/modal/expense_modal.dart';
 import 'package:adv_final_exam/modal/modal.dart';
 
 import 'package:adv_final_exam/view/screens/sign_in.dart';
@@ -164,7 +165,8 @@ class HomeScreen extends StatelessWidget {
                                       providerFalse.updateNoteInDatabase(
                                         name: notesModal[index].toString(),
                                         qut: providerTrue.txtCate.text,
-                                        cate: providerTrue.txtCate.text, done: null,
+                                        cate: providerTrue.txtCate.text,
+                                        done: providerTrue.txtQut.text.isNotEmpty,
                                       );
                                       Navigator.pop(context);
                                     },
