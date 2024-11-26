@@ -10,20 +10,22 @@ class HabitProvider extends ChangeNotifier {
   String groupValue = "Complete";
   double per = 0.0;
 
-
   void setProgress(String value) {
     groupValue = value;
+    calculateProgress();
     notifyListeners();
   }
 
   HabitProvider() {
     DataBaseService.dataBaseService.initDb();
+    calculateProgress();
     getAllHabit();
   }
 
   Future<void> getAllHabit() async {
     List tempData = await DataBaseService.dataBaseService.getAllData();
     data = tempData.map((e) => HabitModel.fromMap(e)).toList();
+    calculateProgress();
     notifyListeners();
   }
 
@@ -44,6 +46,17 @@ class HabitProvider extends ChangeNotifier {
   Future<void> deleteData(int id) async {
     await DataBaseService.dataBaseService.deleteData(id);
     getAllHabit();
+  }
+
+  void calculateProgress() {
+    double ck = 0.0;
+    for (int i = 0; i < data.length; i++) {
+      if (data[i].progress == "Complete") {
+        ck++;
+      }
+    }
+    per = (ck / data.length) * 100;
+    notifyListeners();
   }
 
   Future<void> syncDataCloudToDatabase() async {

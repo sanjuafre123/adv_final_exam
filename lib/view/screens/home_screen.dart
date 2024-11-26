@@ -52,116 +52,146 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 10,
             ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20,),
+                Consumer<HabitProvider>(
+                  builder: (BuildContext context, value, Widget? child) => Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        height: 85,
+                        width: 85,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.grey.shade300,
+                          value: value.per > 0 ? value.per / 100 : 0.0,
+                          strokeWidth: 8,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      Text((habitProviderTrue.per > 0) ? "${habitProviderTrue.per.toStringAsFixed(2)}%" : "0.0%")
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
             Expanded(
               child: ListView.builder(
                 itemCount: habitProviderTrue.data.length,
                 itemBuilder: (context, index) {
                   final data = habitProviderTrue.data[index];
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: ListTile(
-                          title: Text(data.habit),
-                          subtitle: Text(data.target),
-                          leading: Text(data.id.toString()),
-                          trailing: Text(data.progress),
+                  return Card(
+                    color : (data.progress=="Complete") ? Colors.green[200] : Colors.red[200],
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: ListTile(
+                            title: Text(data.habit),
+                            subtitle: Text(data.target),
+                            leading: Text(data.id.toString()),
+                            trailing: Text(data.progress),
+                          ),
                         ),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            txtName.text = data.habit;
-                            txtTargetDays.text = data.target;
-                            habitProviderFalse.setProgress("Complete");
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text("Add Note"),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      TextField(controller: txtName),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      TextField(controller: txtTargetDays),
-                                      Consumer<HabitProvider>(
-                                        builder: (BuildContext context,
-                                                HabitProvider provider,
-                                                Widget? child) =>
-                                            Column(
-                                          children: [
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Radio(
-                                                    value: "Complete",
-                                                    groupValue:
-                                                        provider.groupValue,
-                                                    onChanged: (value) {
-                                                      habitProviderFalse
-                                                          .setProgress(value!);
-                                                    }),
-                                                const Text(
-                                                  'Complete',
-                                                  style:
-                                                      TextStyle(fontSize: 10),
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Radio(
-                                                    value: "NotComplete",
-                                                    groupValue:
-                                                        provider.groupValue,
-                                                    onChanged: (value) {
-                                                      habitProviderFalse
-                                                          .setProgress(value!);
-                                                    }),
-                                                const Text(
-                                                  'NotComplete',
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                        IconButton(
+                            onPressed: () {
+                              txtName.text = data.habit;
+                              txtTargetDays.text = data.target;
+                              habitProviderFalse.setProgress("Complete");
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Add Note"),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextField(controller: txtName),
+                                        SizedBox(
+                                          height: 10,
                                         ),
-                                      ),
+                                        TextField(controller: txtTargetDays),
+                                        Consumer<HabitProvider>(
+                                          builder: (BuildContext context,
+                                                  HabitProvider provider,
+                                                  Widget? child) =>
+                                              Column(
+                                            children: [
+                                              Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Radio(
+                                                      value: "Complete",
+                                                      groupValue:
+                                                          provider.groupValue,
+                                                      onChanged: (value) {
+                                                        habitProviderFalse
+                                                            .setProgress(value!);
+                                                      }),
+                                                  const Text(
+                                                    'Complete',
+                                                    style:
+                                                        TextStyle(fontSize: 10),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Radio(
+                                                      value: "NotComplete",
+                                                      groupValue:
+                                                          provider.groupValue,
+                                                      onChanged: (value) {
+                                                        habitProviderFalse
+                                                            .setProgress(value!);
+                                                      }),
+                                                  const Text(
+                                                    'NotComplete',
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Text("Cancel")),
+                                      TextButton(
+                                          onPressed: () async {
+                                            if (txtTargetDays.text != "" &&
+                                                txtName.text != "") {
+                                              await habitProviderFalse.updateData(
+                                                  data.id,
+                                                  txtName.text,
+                                                  txtTargetDays.text,
+                                                  habitProviderTrue.groupValue);
+                                              Navigator.pop(context);
+                                            } else {
+                                              // print("All Field Must Be Required");
+                                            }
+                                          },
+                                          child: const Text("Ok")),
                                     ],
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
-                                        child: const Text("Cancel")),
-                                    TextButton(
-                                        onPressed: () async {
-                                          if (txtTargetDays.text != "" &&
-                                              txtName.text != "") {
-                                            await habitProviderFalse.updateData(
-                                                data.id,
-                                                txtName.text,
-                                                txtTargetDays.text,
-                                                habitProviderTrue.groupValue);
-                                            Navigator.pop(context);
-                                          } else {
-                                            // print("All Field Must Be Required");
-                                          }
-                                        },
-                                        child: const Text("Ok")),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          icon: const Icon(Icons.edit)),
-                      IconButton(
-                        onPressed: () => habitProviderFalse.deleteData(data.id),
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.edit)),
+                        IconButton(
+                          onPressed: () => habitProviderFalse.deleteData(data.id),
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
