@@ -1,31 +1,28 @@
-class ShoppingModal {
-  String name;
-  int qut;
-  String cate;
-  bool done;
+class HabitModel {
+  late int id;
+  late String habit, target, progress;
 
-  ShoppingModal({
-    required this.name,
-    required this.qut,
-    required this.cate,
-    required this.done,
+  HabitModel({
+    required this.id,
+    required this.habit,
+    required this.target,
+    required this.progress,
   });
 
-  factory ShoppingModal.fromMap(Map<String, dynamic> map) {
-    return ShoppingModal(
-      name: map['name'],
-      qut: map['qut'],
-      cate: map['cate'],
-      done: map['done'] == 1,
-    );
+  factory HabitModel.fromMap(Map m1) {
+    return HabitModel(
+        id: m1["id"],
+        habit: m1["habit"],
+        target: m1["target"],
+        progress: m1["progress"]);
   }
 
-  Map<String, dynamic> toMap() {
+  static Map<String, dynamic> fromData(HabitModel habitModel) {
     return {
-      'name': name,
-      'qut': qut,
-      'cate': cate,
-      'done': done ? 1 : 0,
+      "id": habitModel.id,
+      "habit": habitModel.habit,
+      "target": habitModel.target,
+      "progress": habitModel.progress,
     };
   }
 }

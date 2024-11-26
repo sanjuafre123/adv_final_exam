@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../service/auth.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -47,7 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: emailController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(7)),
                     label: const Text("Email"),
                   ),
                 )),
@@ -55,20 +54,21 @@ class _SignUpPageState extends State<SignUpPage> {
               height: 10,
             ),
             SizedBox(
-                width: w * 0.9,
-                child: TextFormField(
-                  validator: (value) => value!.length < 8
-                      ? "Password should have at least 8 characters."
-                      : null,
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    label: Text("Password"),
-                  ),
-                )),
-            SizedBox(
+              width: w * 0.9,
+              child: TextFormField(
+                validator: (value) => value!.length < 8
+                    ? "Password should have at least 8 characters."
+                    : null,
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(7)),
+                  label: const Text("Password"),
+                ),
+              ),
+            ),
+            const SizedBox(
               height: 20,
             ),
             SizedBox(
@@ -96,26 +96,27 @@ class _SignUpPageState extends State<SignUpPage> {
                       onTap: () {
                         Get.toNamed('/home');
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign Up",
                         style: TextStyle(fontSize: 16),
                       ),
                     ))),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "Already have Account!",
                 ),
                 TextButton(
                   onPressed: () {
                     Get.toNamed('/login');
                   },
-                  child: Text(
+                  child: const Text(
                     "Login",
+                    style: TextStyle(color: Colors.blue),
                   ),
                 ),
               ],

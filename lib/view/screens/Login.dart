@@ -1,7 +1,12 @@
+import 'package:adv_final_exam/view/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../service/auth.dart';
+
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,8 +17,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +26,8 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
             child: Row(
               children: [
                 Text(
@@ -34,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           SizedBox(
@@ -45,11 +48,11 @@ class _LoginPageState extends State<LoginPage> {
                 controller: emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(7)),
                   label: Text("Email"),
                 ),
               )),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SizedBox(
@@ -62,20 +65,20 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  label: Text("Password"),
+                      borderRadius: BorderRadius.circular(7)),
+                  label: const Text("Password"),
                 ),
               )),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SizedBox(
             height: 65,
             width: w * .9,
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState!.validate()) {
-                  AuthService()
+                  await AuthService()
                       .loginWithEmail(
                           emailController.text, passwordController.text)
                       .then(
@@ -84,32 +87,39 @@ class _LoginPageState extends State<LoginPage> {
                         Get.snackbar("Login", "Login Successful");
                         Get.offAllNamed('/home');
                       } else {
-                        Get.snackbar("Login", "$value",
-                            backgroundColor: Colors.red);
+                        Get.snackbar(
+                          "Login",
+                          "$value",
+                          backgroundColor: Colors.red,
+                        );
                       }
                     },
                   );
                 }
-
               },
-              child: Text(
+              child: const Text(
                 "Log In",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 20),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Don't have and account?"),
+              const Text("Don't have and account?"),
               TextButton(
                 onPressed: () {
                   Get.toNamed('/signup');
                 },
-                child: Text("Sign Up"),
+                child: const Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
+                ),
               ),
             ],
           )

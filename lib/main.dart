@@ -1,9 +1,8 @@
-
-import 'package:adv_final_exam/provider/shopping_provider.dart';
+import 'package:adv_final_exam/provider/habit_provider.dart';
 import 'package:adv_final_exam/service/auth.dart';
+import 'package:adv_final_exam/view/screens/Login.dart';
 import 'package:adv_final_exam/view/screens/SignUp.dart';
 import 'package:adv_final_exam/view/screens/home_screen.dart';
-import 'package:adv_final_exam/view/screens/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,11 +16,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (context) => ShoppingProvider(),
-      ),
-    ], child: const MyApp()),
+    ChangeNotifierProvider(
+      create: (context) => HabitProvider(),
+      builder: (context, child) => const MyApp(),
+    ),
   );
 }
 

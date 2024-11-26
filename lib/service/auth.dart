@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AuthService {
@@ -62,54 +62,6 @@ class Todo {
   }
 }
 
-class TodoProvider {
-  Database? db;
-
-  Future open(String path) async {
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-CREATE TABLE $tableTodo ( 
-  $columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
-  $columnTitle TEXT NOT NULL,
-  $columnDone INTEGER NOT NULL,
-  $columnAuthor TEXT NOT NULL)
-''');
-    });
-  }
-
-  Future<Todo> insert(Todo todo) async {
-    todo.id = await db!.insert(tableTodo, todo.toMap());
-    return todo;
-  }
-
-  Future<Object> getTodo(int id) async {
-    List maps = await db!.query(tableTodo,
-        columns: [
-          columnId,
-          columnDone,
-          columnTitle,
-        ],
-        where: '$columnId = ?',
-        whereArgs: [id]);
-    if (maps.length > 0) {
-      return Todo.fromMap(maps.first);
-    }
-    return [];
-  }
-
-  Future<int> delete(int id) async {
-    return await db!.delete(tableTodo, where: '$columnId = ?', whereArgs: [id]);
-  }
-
-  Future<int> update(Todo todo) async {
-    return await db!.update(tableTodo, todo.toMap(),
-        where: '$columnId = ?', whereArgs: [todo.id]);
-  }
-
-  Future close() async => db!.close();
-}
-
 
 class AuthServices {
   AuthServices._();
@@ -121,5 +73,34 @@ class AuthServices {
 
   User? getCurrentUser() {
     return _auth.currentUser;
+  }
+}
+
+class GoogleAuthService {
+  GoogleAuthService._();
+
+  static GoogleAuthService googleAuthService = GoogleAuthService._();
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {}
+  }
+
+  User? getCurrentUser() {
+    User? user = _firebaseAuth.currentUser;
+    return user;
   }
 }
