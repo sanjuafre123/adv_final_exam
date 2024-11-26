@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/habit_provider.dart';
-import '../../service/auth.dart';
 import '../../service/habit_services.dart';
 
 TextEditingController txtName = TextEditingController();
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
               onPressed: () async {
-                await habitProviderFalse.syncDataCloudToDatabase();
+                await habitProviderTrue.syncDataCloudToDatabase();
               },
               child: const Text(
                 "Save to local",
